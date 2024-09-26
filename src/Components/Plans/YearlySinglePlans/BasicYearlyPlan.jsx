@@ -6,6 +6,7 @@ import QRCode from "qrcode.react";
 import { MdOutlineFileCopy } from "react-icons/md";
 import axios from "../../../api/axios";
 import { ForwardIcon } from "../../../assets/index";
+import {PRICING_DATA_URL} from "../../../utils/constants/urls.js";
 
 const BasicYearlyPlan = () => {
   let [Open, setOpen] = useState(false);
@@ -35,7 +36,7 @@ const BasicYearlyPlan = () => {
     },
   ]);
 
-  const PLAN_URL = "/pricing/payment/yearly/basic/";
+  const PLAN_URL = PRICING_DATA_URL("yearly", "basic");
 
   async function Data() {
     setButtonText("Please wait ...");

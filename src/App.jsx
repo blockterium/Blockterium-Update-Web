@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./routes/navigation/Navbar";
+// import Navbar from "./routes/navigation/Navbar";
 import ContactUs from "./Components/home/contactUs";
 import AboutUs from "./Components/home/aboutUs";
 import { HomePage, SignUp, Login } from "./routes/index";
@@ -16,7 +16,7 @@ import ForgetPassword from "./Components/ForgetPassword";
 import TermsAndCondition from "./routes/navigation/TermsAndCondition";
 import PrivacyPolicy from "./routes/navigation/PrivacyPolicy";
 import PasswordResetUpdate from "./Components/PasswordResetUpdate";
-import Update from "./Components/Update/Update";
+// import Update from "./Components/Update/Update";
 // ************************************************************************************
 
 export default function App({ token, encoded_pk }) {

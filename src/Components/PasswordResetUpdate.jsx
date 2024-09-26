@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Logo, Bg, iphone } from "../assets/index";
 import axios from "../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {CONFIRM_PASSWORD_RESET_URL} from "../utils/constants/urls.js";
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -79,7 +80,7 @@ const PasswordResetUpdate = () => {
     const encoded_pk = splitLocation[2];
     try {
       const response = await axios.post(
-        `/accounts/password-reset/${encoded_pk}/${token}/`,
+        CONFIRM_PASSWORD_RESET_URL(encoded_pk, token),
         JSON.stringify({
           token: token,
           password: password,

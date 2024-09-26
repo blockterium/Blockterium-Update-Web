@@ -6,6 +6,7 @@ import QRCode from "qrcode.react";
 import { MdOutlineFileCopy } from "react-icons/md";
 import { ForwardIcon } from "../../../assets/index";
 import axios from "../../../api/axios";
+import {PAYMENT_CONFIRMATION_URL, PRICING_DATA_URL} from "../../../utils/constants/urls.js";
 
 const CustomPlan = () => {
   let [Open, setOpen] = useState(false);
@@ -35,12 +36,11 @@ const CustomPlan = () => {
     },
   ]);
 
-  const PLAN_URL = "/pricing/payment/monthly/custom/";
 
   async function Data() {
     setButtonText("Please wait ...");
     try {
-      const response = await axios.get(PLAN_URL, {
+      const response = await axios.get(PRICING_DATA_URL('monthly', 'custom'), {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiToken}`,
@@ -61,7 +61,7 @@ const CustomPlan = () => {
   async function handleSubmit(event) {
     try {
       const response = await axios.post(
-        PLAN_URL,
+        PAYMENT_CONFIRMATION_URL('monthly', 'custom'),
         JSON.stringify({
           address: updateData.address,
           amount: updateData.amount,
@@ -137,6 +137,7 @@ const CustomPlan = () => {
       size={100}
       level={"H"}
       className="m-auto"
+      renderAs={'svg'}
     />
   );
 

@@ -3,8 +3,8 @@ import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Logo, Bg, iphone } from "../assets/index";
 import axios from "../api/axios";
+import {REQUEST_PASSWORD_RESET_URL} from "../utils/constants/urls.js";
 
-const RESET_URL = "/accounts/request/password/reset/";
 
 export default function ForgetPassword(props) {
   // const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function ForgetPassword(props) {
     setButtonText("Resetting Your Password...");
     try {
       const response = await axios.post(
-        RESET_URL,
+        REQUEST_PASSWORD_RESET_URL,
         JSON.stringify({ email: email }),
         {
           headers: { "Content-Type": "application/json" },

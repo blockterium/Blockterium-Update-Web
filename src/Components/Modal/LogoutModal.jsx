@@ -4,6 +4,8 @@ import ActionButton from "../Inputs/ActionButton";
 import { ForwardIcon } from "../../assets";
 import AuthContext from "../../context/AuthProvider";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "../../api/axios.js";
+import {LOGOUT_URL} from "../../utils/constants/urls.js";
 
 export default function LogoutModal({
   closeModal,
@@ -20,6 +22,8 @@ export default function LogoutModal({
     // axios to /logout endpoint
     setAuth({});
     localStorage.removeItem("accessToken");
+
+    // await axios.post(LOGOUT_URL, {})
     navigate("/login");
   };
   return (
