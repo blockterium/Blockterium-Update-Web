@@ -4,8 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Logo, Bg, iphone } from "../assets/index";
 import axios from "../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-const LOGIN_URL = "/accounts/login/";
+import {LOGIN_URL} from "../utils/constants/urls.js";
 
 export default function SignIn(props) {
   const { setAuth } = useAuth();

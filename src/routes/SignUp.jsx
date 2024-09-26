@@ -4,9 +4,8 @@ import { Logo, Bg, iphone } from "../assets/index";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {REGISTER_BUSINESS_URL} from "../utils/constants/urls.js";
 
-const BUSINESS_REGISTER_URL = "/accounts/register/business/";
-const DEVELOPER_REGISTER_URL = "/accounts/register/";
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -78,7 +77,7 @@ export default function SignUp(props) {
 
     try {
       const response = await axios.post(
-        BUSINESS_REGISTER_URL,
+        REGISTER_BUSINESS_URL,
         JSON.stringify(userData),
         {
           headers: { "Content-Type": "application/json" },
@@ -332,7 +331,7 @@ export default function SignUp(props) {
                 By clicking <strong>Procced</strong>, you have agreed to our{" "}
                 {""}
                 <Link
-                  to={"/terms-conditions"}
+                  to={`/terms-conditions`}
                   className="text-mainBlue cursor-pointer font-bold"
                 >
                   terms and condition
@@ -341,7 +340,7 @@ export default function SignUp(props) {
             </div>
             <button
               className="w-full  py-1 BlueGradient rounded-lg hover:shadow-blue-500/50 text-white font-semibold"
-              disabled={!validPassword ? true : false}
+              disabled={!validPassword}
               type="submit"
             >
               {buttonText}
@@ -350,7 +349,7 @@ export default function SignUp(props) {
         </div>
         <h2 className="text-white font-poppins text-center  cursor-pointer py-6">
           Already have an account ?{" "}
-          <Link to="/login" className="text-mainBlue font-bold cursor-pointer">
+          <Link to={`/login`} className="text-mainBlue font-bold cursor-pointer">
             Log in
           </Link>
         </h2>

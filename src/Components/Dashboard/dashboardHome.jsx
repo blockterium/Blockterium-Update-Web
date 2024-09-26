@@ -23,14 +23,14 @@ const DashboardHome = () => {
         <p>© 2023 Blockterium Technology LLC</p>
         <p className="text-mainBlue">
           <Link
-            to={"/terms-conditions"}
+            to={`/terms-conditions`}
             className="cursor-pointer font-bold mr-1"
           >
             Terms of Use
           </Link>
 
           <Link
-            to={"/privacy-policy"}
+            to={`/privacy-policy`}
             className="cursor-pointer font-bold mr-1"
           >
             Privacy Policy

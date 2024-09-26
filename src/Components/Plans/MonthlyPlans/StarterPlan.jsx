@@ -7,6 +7,7 @@ import { MdOutlineFileCopy } from "react-icons/md";
 import axios from "../../../api/axios";
 import { ForwardIcon } from "../../../assets/index";
 import { Link } from "react-router-dom";
+import {PRICING_DATA_URL} from "../../../utils/constants/urls.js";
 
 const StarterPlan = () => {
   let [Open, setOpen] = useState(false);
@@ -44,7 +45,7 @@ const StarterPlan = () => {
     setIsOpen(false);
   }
 
-  const PLAN_URL = "/pricing/payment/monthly/starter/";
+  const PLAN_URL = PRICING_DATA_URL('monthly', 'starter');
 
   async function Data() {
     setButtonText("Please wait ...");

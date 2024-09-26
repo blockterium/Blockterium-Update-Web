@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { Dropdown } from "primereact/dropdown";
-import InputField from "../Inputs/InputField";
 import InputFieldTwo from "../Inputs/InputFieldTwo";
 import { MdNotInterested } from "react-icons/md";
 import {
   ConfirmIcon,
   profilePicture2,
-  testnetIcon,
+  // testnetIcon,
   testnet2Icon,
   Guide1,
-  Guide2,
+  // Guide2,
   LimitKey,
   ArrowDown2,
 } from "../../assets";
@@ -21,9 +19,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Popover } from "@headlessui/react";
 import LogoutModal from "../Modal/LogoutModal";
 import PaymentRequiredModal from "../Modal/PaymentRequiredModal";
-import { useStateContext } from "../../context/ContextProvider";
+// import { useStateContext } from "../../context/ContextProvider";
 import ReactLoading from "react-loading";
 import axios from "../../api/axios";
+import {GENERATE_OR_RESET_API_KEY_URL, GET_DASHBOARD_DATA_URL} from "../../utils/constants/urls.js";
 
 const DashboardLists = ({ classnames }) => {
   const location = useLocation();
@@ -50,44 +49,40 @@ const DashboardLists = ({ classnames }) => {
   const mainnetKey = localStorage.getItem("MainnetKey");
   const mainnetResetKey = localStorage.getItem("ResetmainnetKey");
 
-  const DASHBOARD_URL = "/accounts/dashboard/";
-  const GENERATE_API_URL = "/accounts/generate/api-key/";
   const [isPremium, setIsPremium] = useState(false);
   const [mainnetApiKey, setMainnetApiKey] = useState("");
 
-  async function fetchDashboardData() {
-    try {
-      const response = await axios.get(DASHBOARD_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiToken}`,
-        },
-        withCredentials: true,
-      });
+  useEffect(() => {
+    async function fetchDashboardData() {
+      try {
+        const response = await axios.get(GET_DASHBOARD_DATA_URL, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiToken}`,
+          },
+          withCredentials: true,
+        });
 
-      const premiumUser = response?.data?.data?.is_premium;
-
-      const resp = response?.data?.data;
-      setUpdateData(resp);
-      setIsLoading(false);
-      setIsPremium(premiumUser);
-    } catch (error) {
-      const unauthorizedUser = error.response?.statusText;
-      if (unauthorizedUser === "Unauthorized") {
-        navigate(from, { replace: true });
+        const premiumUser = response?.data?.data?.is_premium;
+        const resp = response?.data?.data;
+        setUpdateData(resp);
+        setIsLoading(false);
+        setIsPremium(premiumUser);
+      } catch (error) {
+        const unauthorizedUser = error.response?.statusText;
+        if (unauthorizedUser === "Unauthorized") {
+          navigate(from, { replace: true });
+        }
       }
     }
-  }
-
-  useEffect(() => {
-    (async () => fetchDashboardData())();
-  }, [updateData]);
+    fetchDashboardData();
+  }, []);
 
   async function generateApiKey() {
     setButtonText("Generating Key...");
 
     try {
-      const response = await axios.get(GENERATE_API_URL, {
+      const response = await axios.get(GENERATE_OR_RESET_API_KEY_URL, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiToken}`,
@@ -95,11 +90,10 @@ const DashboardLists = ({ classnames }) => {
         withCredentials: true,
       });
 
-      const MainnetKey = response?.data?.data?.mainnet_api_key;
-      localStorage.setItem("MainnetKey", MainnetKey);
-
+      const mainnetKey = response?.data?.data?.mainnet_api_key;
+      localStorage.setItem("MainnetKey", mainnetKey);
       setButtonText("Create new API");
-      setMainnetApiKey(mainnetResetKey);
+      setMainnetApiKey(mainnetKey);
     } catch (error) {
       // console.log(error);
     }
@@ -109,11 +103,10 @@ const DashboardLists = ({ classnames }) => {
     setResetButtonText("Resetting...");
     try {
       const response = await axios.post(
-        GENERATE_API_URL,
+        GENERATE_OR_RESET_API_KEY_URL,
         JSON.stringify({ apikey: mainnetKey }),
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${apiToken}`,
           },
           withCredentials: true,
@@ -193,7 +186,7 @@ const DashboardLists = ({ classnames }) => {
               <div className="flex ml-auto sm:hidden justify-end mb-5">
                 <Popover className="relative">
                   <Popover.Button className="flex items-center border font-semibold text-mainBlack !border-greySeven outline-greySeven py-2 px-4">
-                    Menu <img src={ArrowDown2} className="ml-1" />
+                    Menu <img src={ArrowDown2} className="ml-1" alt={''} />
                   </Popover.Button>
 
                   <Popover.Panel className="absolute z-10 right-0 cursor-pointer drop-shadow-2xl text-mainBlack top-10 w-[300px] bg-mainWhite">
@@ -225,7 +218,7 @@ const DashboardLists = ({ classnames }) => {
                         Billing
                       </Link> */}
                       <Link
-                        to="/settings"
+                        to={`/settings`}
                         className={
                           splitLocation[1] === "settings"
                             ? "py-3 px-3 bg-gradedBlue bg-opacity-30 text-base"
@@ -243,7 +236,7 @@ const DashboardLists = ({ classnames }) => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <img src={profilePicture2} className="mr-2 ss:mr-3" />
+                  <img src={profilePicture2} className="mr-2 ss:mr-3" alt={'Profile Picture'} />
                   <div>
                     <h3 className="text-[20px] font-bold tracking-tighter">
                       {`Welcome back, ${fullName}`}
@@ -256,7 +249,7 @@ const DashboardLists = ({ classnames }) => {
                 <div className="hidden sm:flex">
                   <Popover className="">
                     <Popover.Button className="flex items-center border  text-mainBlack text-[14px] font-bold !border-greySeven outline-greySeven py-2 px-4">
-                      Menu <img src={ArrowDown2} className="ml-2" />
+                      Menu <img src={ArrowDown2} className="ml-2" alt={''} />
                     </Popover.Button>
 
                     <Popover.Panel className="absolute z-10 right-0 cursor-pointer drop-shadow-2xl text-mainBlack top-30 w-[300px] bg-mainWhite">
@@ -537,7 +530,7 @@ const DashboardLists = ({ classnames }) => {
                   Choose a plan to create New API keys
                 </p>
                 <Link
-                  to={"/dashboard/explore/pricing"}
+                  to={`/dashboard/explore/pricing`}
                   className="text-mainBlue text-sm group-hover:text-mainWhite"
                 >
                   Get Started
